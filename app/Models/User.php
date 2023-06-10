@@ -61,4 +61,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Izin::class, 'id_jabatan');
     }
+
+    public function employeeSalary()
+    {
+        return $this->hasMany(User::class);
+    }
 }

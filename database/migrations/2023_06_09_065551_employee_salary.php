@@ -3,7 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -14,16 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('roles', function (Blueprint $table) {
-            $table->id('id_role');
-            $table->string('roles');
+        Schema::create('employee_salaries', function (Blueprint $table) {
+            $table->id('id_salaries');
+            $table->unsignedBigInteger('id_user');
+            $table->bigInteger('total_gaji');
+            $table->string('bukti_transfer_gaji');
             $table->timestamps();
-        });
 
-        DB::table('roles')->insert([
-            ['id_role' => 1, 'roles' => 'Admin'],
-            ['id_role' => 2, 'roles' => 'Employee']
-        ]);
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+        });
     }
 
     /**
@@ -33,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('roles');
+        //
     }
 };

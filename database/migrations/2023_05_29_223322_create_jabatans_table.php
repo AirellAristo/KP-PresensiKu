@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -24,6 +25,10 @@ return new class extends Migration
             $table->foreignId('id_jabatan');
             $table->foreign('id_jabatan')->references('id_jabatan')->on('jabatans')->onUpdate('cascade');
         });
+
+        DB::table('jabatans')->insert([
+            ['id_jabatan' => 1, 'jabatan' => 'none']
+        ]);
     }
 
     /**

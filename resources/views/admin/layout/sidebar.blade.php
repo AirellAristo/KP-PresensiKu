@@ -17,8 +17,15 @@
 
       <li class="nav-item">
         <a class="nav-link {{ request()->url() === url('/karyawan') ? 'active' : 'collapsed' }}" href="{{ url('/karyawan') }}">
-          <i class="bi bi-newspaper"></i>
+            <i class="bi bi-people-fill"></i>
           <span>Data Karyawan</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link {{ request()->url() === url('/gaji') ? 'active' : 'collapsed' }}" href="{{ url('/gaji') }}">
+            <i class="bi bi-cash-coin"></i>
+          <span>Bayar Gaji Karyawan</span>
         </a>
       </li>
 
@@ -26,12 +33,10 @@
         <a class="nav-link {{ request()->url() === url('/karyawan/cuti') ? 'active' : 'collapsed' }}" href="{{ url('/karyawan/cuti') }}">
           <i class="bi bi-exclamation-lg"></i>
           <span>Permintaan Cuti &nbsp;</span>
-          {{-- @if (session('jumlahPermintaan') != 0)
-          <span class="badge rounded-pill bg-danger">{{ session('jumlahPermintaan') }}</span>
-          @endif --}}
-
         </a>
       </li>
+
+
 
     </ul>
 

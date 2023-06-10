@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use Illuminate\Http\Request;
-use App\Http\Controllers;
 use App\Models\Izin;
+use App\Models\Absent;
+use App\Http\Controllers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CutiController extends Controller
@@ -35,10 +36,20 @@ class CutiController extends Controller
         ]);
         $validated['id_user'] = $idUser;
         $validated['status'] = 'Pending';
-        if(Izin::create($validated)){
-            return redirect("/cuti")->with('success', 'Permintaan Cuti Sudah Dikirim');
+        $checkPresensi =Absent::where('id_user',$idUser)
+                        ->whereRaw('date(created_at) = CURRENT_DATE()')
+                        ->count();
+        // dd($checkPresensi);
+        if($checkPresensi == 0){
+            if(Izin::create($validated)){
+                return redirect("/cuti")->with('success', 'Permintaan Cuti Sudah Dikirim');
+            }else{
+                return redirect()->back()->with('error', 'Mohon Isi Semua Data');
+            }
         }else{
+            return redirect()->back()->with('error', 'Kamu Harus Masuk Hari Ini');
         }
+
 
     }
 }

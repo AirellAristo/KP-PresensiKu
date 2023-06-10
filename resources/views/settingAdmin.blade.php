@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-lg-10">
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><a href="#">- Edit Profile Perusahaan</a></li>
+                    <li class="list-group-item"><a href="#">- Edit/Lihat Profile Perusahaan</a></li>
 
                     <li class="list-group-item">- Buka/Tutup Presensi :
                         @if($companyStatus[0]->status == "tutup")

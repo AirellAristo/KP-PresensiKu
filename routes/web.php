@@ -10,6 +10,7 @@ use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CutiController;
+use App\Http\Controllers\employeeSalaryController;
 use App\Http\Controllers\IndexAdminController;
 use App\Http\Controllers\SettingController;
 use App\Models\Absent;
@@ -74,6 +75,10 @@ Route::middleware(['loginAs'])->group(function () {
     Route::put('/jabatan/{id_jabatan}', [JabatanController::class, 'update']);
     // delete jabatan
     Route::get('jabatan/{id_jabatan}/delete', [JabatanController::class, 'destroy']);
+
+    //Bayar Karyawan
+    Route::get('/gaji',[employeeSalaryController::class,'viewGajiKaryawan']);
+    //END Bayar Karyawan
 
     // karyawan
     Route::get('/karyawan', [KaryawanController::class, 'index']);

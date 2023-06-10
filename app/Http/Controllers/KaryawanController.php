@@ -70,6 +70,7 @@ class KaryawanController extends Controller
                             ->get();
         $data = DB::table('izins')
                 ->where('id_user',$id_karyawan)
+                ->where('status','Setuju')
                 ->get();
         return view('admin.karyawan.viewDetailCuti',compact('dataDiriKaryawan','data','no'));
     }
