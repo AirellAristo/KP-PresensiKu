@@ -70,19 +70,17 @@
                       <label for="yourUsername" class="form-label">Email</label>
                       <input type="text" name="email" class="form-control @error('email') is-invalid @enderror" id="email" required>
                       @error('email')
-                        <div id="emailHelp" class="form-text">{{ $message }}</div>
-                      @enderror
+                            <div id="emailHelp" class="form-text" style="color: red">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">Password</label>
                       <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="password" required>
-
-                      @error('password')
-                        <div id="passwordHelp" class="form-text">{{ $message }}</div>
-                       @enderror
                     </div>
-
+                        @error('credentials')
+                            <div id="passwordHelp" class="form-text" style="color: red">{{ $message }}</div>
+                        @enderror
                     <div class="col-12">
                       <button class="btn btn-primary w-100" type="submit">Login</button>
                     </div>

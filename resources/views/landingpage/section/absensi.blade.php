@@ -29,7 +29,7 @@
                                         @csrf
                                         <div class="form-group">
                                             <label for="exampleFormControlTextarea1">Kegiatan</label>
-                                            <textarea name='keterangan' class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                            <textarea name='keterangan' class="form-control" id="exampleFormControlTextarea1" rows="3" required></textarea>
                                           </div>
                                           <button class="btn btn-info mt-3">Hadir</button>
                                         {{-- <button id="submitBtn" class="btn btn-info mt-3">Submit</button> --}}

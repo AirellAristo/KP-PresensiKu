@@ -65,6 +65,12 @@ Route::middleware(['loginAs'])->group(function () {
     Route::get('/setting/presensi/tutup',[AbsentController::class,'tutupPresensi']);
     // End Setting
 
+    //Edit or Lihat Profile Perusahaan
+    Route::get('/setting/perusahaan',[SettingController::class,'viewProfilePerusahaan']);
+    Route::get('setting/perusahaan/profile',[SettingController::class,'viewEditProfilePerusahaan']);
+    Route::put('/setting/perusahaan/profile/edit',[SettingController::class,'editProfilePerusahaan']);
+
+
     // jabatan
     Route::get('/jabatan', [JabatanController::class, 'index']);
     // add jabatan
@@ -78,6 +84,9 @@ Route::middleware(['loginAs'])->group(function () {
 
     //Bayar Karyawan
     Route::get('/gaji',[employeeSalaryController::class,'viewGajiKaryawan']);
+    Route::get('/gaji/bayar/{id}',[employeeSalaryController::class,'viewBayarGajiKaryawan']);
+    Route::get('gaji/detail/{id}',[employeeSalaryController::class,'viewDetailGajiKaryawan']);
+    Route::post('/gaji/bayar/{id}/kirim',[employeeSalaryController::class,'bayarGajiKaryawan']);
     //END Bayar Karyawan
 
     // karyawan
@@ -92,6 +101,10 @@ Route::middleware(['loginAs'])->group(function () {
     // Permintaan Cuti
     Route::get('/karyawan/cuti',[KaryawanController::class,'viewPermintaanCuti']);
     Route::put('/karyawan/update/cuti/{id}',[KaryawanController::class,'updateStatusCuti']);
+    // END Permintaan Cuti
+
+    // Permintaan Lupa Cuti
+    Route::get('karyawan/lupaPresensi',[KaryawanController::class,'viewPermintaanLupaPresent']);
 });
 
 // employee
@@ -101,6 +114,10 @@ Route::middleware(['loginAsEmployee'])->group(function () {
     Route::get('/absent', [AbsentController::class, 'index']);
     Route::put('/absent', [AbsentController::class, 'absent'])->name('absent');
     // END Sistem Presensi
+
+    //Sistem Lupa Presensi
+    Route::get('/lupaPresensi', [LupaPresentController::class, 'viewLupaPresensiEmpl']);
+
 
     // Sistem Cuti
     Route::get('/cuti',[CutiController::class,'index']);
@@ -113,9 +130,14 @@ Route::middleware(['loginAsEmployee'])->group(function () {
     Route::get('data_absensi/alpha',[DataAbsensiController::class,'indexAlpha']);
     // END Data Kehadiran
 
+    //Riwayat Gaji
+    Route::get('/riwayat_gaji',[employeeSalaryController::class,'viewGajiSaya']);
+    //END Riwayat Gaji
 
+    //Profile
     Route::get('/profile', [ProfileController::class, 'index']);
     Route::put('/profile', [ProfileController::class, 'update']);
+    //End Profile
 });
 
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');

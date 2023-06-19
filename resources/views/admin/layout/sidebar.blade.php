@@ -36,7 +36,12 @@
         </a>
       </li>
 
-
+      <li class="nav-item">
+        <a class="nav-link {{ request()->url() === url('/karyawan/lupaPresensi') ? 'active' : 'collapsed' }}" href="{{ url('/karyawan/lupaPresensi') }}">
+            <i class="bi bi-calendar2-x-fill"></i>
+            <span>Pengajuan Lupa Presensi</span>
+        </a>
+      </li>
 
     </ul>
 

@@ -28,10 +28,10 @@
                                         <th scope="col">No.</th>
                                         <th scope="col">Nama Karyawan</th>
                                         <th scope="col">Jabatan</th>
-                                        <th scope="col">Gaji</th>
                                         <th scope="col">Status</th>
                                         <th scope="col">Bukti Transfer</th>
                                         <th scope="col">Aksi</th>
+                                        <th scope="col">Detail Gaji</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -40,7 +40,6 @@
                                             <th>{{ $no++ }}.</th>
                                             <td>{{ $data->name }}</td>
                                             <td>{{ $data->jabatan }}</td>
-                                            <td>{{ $data->gaji }}</td>
                                             <td>
                                                 @if (in_array($data->id,$buktiBayarGaji))
                                                     {{ 'Sudah Bayar' }}
@@ -50,12 +49,13 @@
                                             </td>
                                             <td>
                                                 @if (in_array($data->id,$buktiBayarGaji))
-                                                    <a href="/#klikDisini">Test</a>
+                                                    <a href="{{ url('storage/'.$fileBuktiBayarGaji[$data->id]) }}"  target="_blank">Lihat Slip Gaji</a>
                                                 @else
                                                     {{ "-" }}
                                                 @endif
                                             </td>
                                             <td><a class="btn btn-success" href="{{ url('/gaji/bayar/'.$data->id) }}"><i class="bi bi-cash-coin"></i></a></td>
+                                            <td><a class="btn btn-info" href="{{ url('/gaji/detail/'.$data->id) }}">Lihat</a></td>
                                         </tr>
                                     @endforeach
                                 </tbody>

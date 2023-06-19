@@ -22,13 +22,13 @@
                                     <form method="POST" action="{{ route('kirimCuti') }}" enctype="multipart/form-data">
                                         @csrf
                                         <label for="birthday">Mulai :</label>
-                                        <input type="date" name="mulai" value="{{ $tanggalHariIni }}">
+                                        <input type="date" name="mulai" value="{{ $tanggalHariIni }}" required>
                                         <label for="birthday">Berakhir :</label>
-                                        <input type="date" name="akhir">
+                                        <input type="date" name="akhir" required>
                                         <div class="form-group">
                                             <br>
                                             <label for="exampleFormControlTextarea1">Alasan Cuti ?</label>
-                                            <textarea name='keterangan' class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                            <textarea name='keterangan' class="form-control" id="exampleFormControlTextarea1" rows="3" required></textarea>
                                           </div>
                                           <button type="submit" class="btn btn-info mt-3">Kirim</button>
                                     </form>

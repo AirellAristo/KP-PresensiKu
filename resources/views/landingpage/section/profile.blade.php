@@ -24,13 +24,8 @@
                             </div>
                             <label for="email" class="col-sm-2 col-form-label mt-3">Email</label>
                             <div class="col-sm-10 mt-3">
-                                <input type="text" class="form-control @error('email') is-invalid @enderror"
-                                    id="email" name="email" value="{{ $profile[0]->email }}">
-                                @error('email')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
+                                <input type="text" class="form-control"  value="{{ $profile[0]->email }}" disabled readonly>
+                                <input id="email" name="email" type="hidden" value="{{ $profile[0]->email }}">
                             </div>
                             <label for="jabatan" class="col-sm-2 col-form-label mt-3">Jabatan</label>
                             <div class="col-sm-10 mt-3">

@@ -93,9 +93,7 @@ class LoginController extends Controller
                 return redirect()->intended('/absent');
             }
         }
-        return back()->withErrors([
-            'email' => 'Email and Password invalid'
-        ])->onlyInput('email');
+        return back()->withErrors(['credentials'=>'Credentials invalid !']);
     }
 
     public function logout(Request $request)

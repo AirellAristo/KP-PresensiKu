@@ -28,7 +28,7 @@
                       <h5 class="card-title">Jumlah Karyawan</h5>
                       <p class="card-text">Hadir : {{ $hitungKaryawanHadir }}</p>
                       <p class="card-text">Alpha : {{ $hitungKaryawanAlpha }}</p>
-                      <p class="card-text">Cuti : {{ $hitungKaryawanCuti }}</p>
+                      <p class="card-text">Cuti : {{ count($hitungKaryawanCuti) }}</p>
                     </div>
                 </div>
               </div>

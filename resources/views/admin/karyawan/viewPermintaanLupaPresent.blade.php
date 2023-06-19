@@ -3,11 +3,11 @@
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>JABATAN</h1>
+            <h1>PERMINTAAN CUTI</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ url('/admin') }}">Home</a></li>
-                    <li class="breadcrumb-item active">Jabatan</li>
+                    <li class="breadcrumb-item active">Permintaan Cuti</li>
                 </ol>
             </nav>
         </div>
@@ -18,15 +18,8 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Tabel Jabatan</h5>
+                            <h5 class="card-title">Tabel Permintaan Cuti</h5>
                             <div style="display: flex; justify-content: space-between;">
-                                <div>
-                                    <a href="{{ url('/jabatan/add') }}">
-                                        <button type="button" class="btn btn-info">
-                                            <i class="fa-solid fa-plus"></i> Tambah Data
-                                        </button>
-                                    </a>
-                                </div>
                             </div>
                             <br>
 
@@ -35,27 +28,32 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">No.</th>
+                                        <th scope="col">Nama</th>
                                         <th scope="col">Jabatan</th>
-                                        <th scope="col">Gaji</th>
+                                        <th scope="col">Kegiatan</th>
+                                        <th scope="col">Kapan</th>
                                         <th scope="col">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($data as $item)
+                                    {{-- @foreach ($data as $item)
                                         <tr>
                                             <th>{{ $no++ }}.</th>
+                                            <td>{{ $item->name }}</td>
                                             <td>{{ $item->jabatan }}</td>
-                                            <td>{{  'Rp ' . number_format($item->gaji, 2, ',', '.')}}</td>
+                                            <td>{{ $item->keterangan }}</td>
+                                            <td>{{ $item->mulai }}</td>
+                                            <td>{{ $item->akhir }}</td>
                                             <td>
-                                                <a href="/jabatan/{{ $item->id_jabatan }}/edit"
-                                                    class="btn btn-xs btn-warning"><i
-                                                        class="fa-solid fa-pen-to-square"></i></a>
-                                                <a href="/jabatan/{{ $item->id_jabatan }}/delete"
-                                                    class="btn btn-xs btn-danger"
-                                                    onclick="return confirm('Are u Sure?');"><i class="fa fa-trash"></i></a>
+                                                <form action="{{ url('/karyawan/update/cuti/'.$item->id_izin.'/'.$item->id) }}" method="post">
+                                                    @csrf
+                                                    @method('put')
+                                                    <button class="btn btn-xs btn-success" type="submit" value="Setuju" name="status">Setuju</button>
+                                                    <button class="btn btn-xs btn-danger" type="submit" value="Tolak" name="status">Tolak</button>
+                                                </form>
                                             </td>
                                         </tr>
-                                    @endforeach
+                                    @endforeach --}}
                                 </tbody>
                             </table>
                             <!-- End Default Table Example -->

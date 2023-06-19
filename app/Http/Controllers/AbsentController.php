@@ -31,39 +31,58 @@ class AbsentController extends Controller
                     ->where('id_company',Auth::user()->id_company)
                     ->whereRaw('date(absents.created_at) = CURRENT_DATE()')
                     ->count();
-        if($check == 0){
-            $getIDUser = [];
-            $getIDIzin = [];
-            $users = User::select('id')
-                ->where('id_role', '!=', 1)
-                ->where('id_company',Auth::user()->id_company)
-                ->get();
-            $izin = Izin::select('id_user')
-                    ->whereRaw('CURRENT_DATE() = date(mulai) or CURRENT_DATE <= date(akhir)')
-                    ->where('status','Setuju')
-                    ->get();
+        $jumlahKaryawan = User::where('id_role','!=',1)
+                            ->where('id_company',Auth::user()->id_company)
+                            ->count();
+        $jumlahKaryawanCuti = Izin::selectRaw('izins.id_user')
+                                    ->join('users','users.id','=','izins.id_user')
+                                    ->where('users.id_company',Auth::user()->id_company)
+                                    ->where('status','Setuju')
+                                    ->whereRaw('CURRENT_DATE() <=date(izins.mulai) ')
+                                    ->groupBy('izins.id_user')
+                                    ->get();
+        if ($jumlahKaryawan > 0){
+            if($jumlahKaryawan == count($jumlahKaryawanCuti)){
+                return redirect('/setting')->with('error','Semua Karyawan Sedang Cuti');
+            }else{
+                if($check == 0){
+                    $getIDUser = [];
+                    $getIDIzin = [];
+                    $users = User::select('id')
+                        ->where('id_role', '!=', 1)
+                        ->where('id_company',Auth::user()->id_company)
+                        ->get();
+                    $izin = Izin::select('id_user')
+                        ->whereRaw('CURRENT_DATE <= date(akhir)')
+                        ->where('status','Setuju')
+                        ->get();
+                    foreach($users as $idEmployee){
+                        $getIDUser[] = $idEmployee->id;
+                    };
 
-            foreach($users as $idEmployee){
-                $getIDUser[] = $idEmployee->id;
-            };
+                    foreach($izin as $idIzin){
+                        $getIDIzin[] = $idIzin->id_user;
+                    };
 
-            foreach($izin as $idIzin){
-                $getIDIzin[] = $idIzin->id_user;
-            };
-
-            $result = array_diff($getIDUser, $getIDIzin);
-            foreach ($result as $presensi) {
-                    $absent = new Absent();
-                    $absent->id_user = $presensi;
-                    $absent->status = 'alpha';
-                    $absent->save();
+                    $result = array_diff($getIDUser, $getIDIzin);
+                    foreach ($result as $presensi) {
+                            $absent = new Absent();
+                            $absent->id_user = $presensi;
+                            $absent->status = 'alpha';
+                            $absent->save();
+                        }
+                    company::where('id_company',Auth::user()->id_company)
+                            ->update(['status' => 'buka']);
+                    return redirect('/setting')->with('success','Berhasil Membuka Presensi');
+                }else{
+                    return redirect('/setting')->with('error','Anda Sudah Membuka Presensi Hari Ini');
                 }
-            company::where('id_company',Auth::user()->id_company)
-                    ->update(['status' => 'buka']);
-            return redirect('/setting')->with('success','Berhasil Membuka Presensi');
+                }
+
         }else{
-            return redirect('/setting')->with('error','Anda Sudah Membuka Presensi Hari Ini');
+            return redirect('/setting')->with('error','Anda Belum Memiliki Karyawan');
         }
+
     }
 
     public function tutupPresensi(){

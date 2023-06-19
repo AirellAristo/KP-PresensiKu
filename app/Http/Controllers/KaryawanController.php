@@ -102,6 +102,10 @@ class KaryawanController extends Controller
         return view('admin.karyawan.viewPermintaanCuti',compact('data','no'));
     }
 
+    public function viewPermintaanLupaPresent(){
+        return view('admin.karyawan.viewPermintaanLupaPresent');
+    }
+
     public function updateStatusCuti(Request $request,$id_karyawan)
     {
         // dd($request->input('status'),$id_karyawan);
