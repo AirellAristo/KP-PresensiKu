@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AbsentController;
+use App\Http\Controllers\CobaAja;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\DataAbsensiController;
@@ -105,6 +106,7 @@ Route::middleware(['loginAs'])->group(function () {
 
     // Permintaan Lupa Cuti
     Route::get('karyawan/lupaPresensi',[KaryawanController::class,'viewPermintaanLupaPresent']);
+    Route::put('/karyawan/lupaPresensi/{id}',[KaryawanController::class,'setPermintaanLupaPresent']);
 });
 
 // employee
@@ -116,8 +118,8 @@ Route::middleware(['loginAsEmployee'])->group(function () {
     // END Sistem Presensi
 
     //Sistem Lupa Presensi
-    Route::get('/lupaPresensi', [LupaPresentController::class, 'viewLupaPresensiEmpl']);
-
+    Route::get('/lupaPresensi', [AbsentController::class, 'viewLupaPresensiEmpl']);
+    Route::put('/lupaPresensi/kirim',[AbsentController::class, 'kirimLupaPresensiEmpl']);
 
     // Sistem Cuti
     Route::get('/cuti',[CutiController::class,'index']);

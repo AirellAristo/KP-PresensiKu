@@ -22,8 +22,6 @@ class AbsentController extends Controller
         return view('landingpage.section.absensi');
     }
 
-
-
     public function bukaPresensi()
     {
         $check=Absent::select('absents.created_at')
@@ -91,37 +89,31 @@ class AbsentController extends Controller
         return redirect('/setting')->with('success','Berhasil Menutup Presensi');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function viewLupaPresensiEmpl(){
+        $dataAlpha = Absent::where('absents.status','Alpha')
+                            ->where('absents.keterangan',null)
+                            ->where('absents.time_in',null)
+                            ->where('absents.id_user',Auth::user()->id)
+                            ->whereRaw('date(absents.created_at) < CURRENT_DATE()')
+                            ->get();
+
+        return view('landingpage.section.lupa_present_karyawan',  compact('dataAlpha'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Absent  $absent
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Absent $absent)
-    {
-        //
-    }
+    public function kirimLupaPresensiEmpl(Request $request){
+        $validated = $request->validate([
+            'id' => 'numeric'
+        ], [
+            'id.numeric' => 'Mohon untuk Memilih Data Alpha'
+        ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Absent  $absent
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $test = Absent::where('id',$validated['id'])
+                ->update(['keterangan' => $request->input('keterangan')]);
+        if($test){
+            return redirect('/lupaPresensi')->with('success','Berhasil Mengirim Pengajuan');
+        }else{
+            return redirect('/lupaPresensi')->with('error','Gagal Mengirim Pengajuan');
+        }
     }
 
     public function absent(Request $request)
@@ -157,30 +149,6 @@ class AbsentController extends Controller
                 return redirect('/absent')->with('success', 'Absent berhasil');
             }
         }
-
-
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Absent  $absent
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Absent $absent)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Absent  $absent
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Absent $absent)
-    {
-        //
-    }
 }

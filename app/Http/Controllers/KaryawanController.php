@@ -103,7 +103,33 @@ class KaryawanController extends Controller
     }
 
     public function viewPermintaanLupaPresent(){
-        return view('admin.karyawan.viewPermintaanLupaPresent');
+        $no = 1;
+        $dataAlpha = Absent::select('users.name','jabatans.jabatan','absents.keterangan','absents.created_at','absents.id')
+                            ->join('users','users.id','=','absents.id_user')
+                            ->join('jabatans','jabatans.id_jabatan','=','users.id_jabatan')
+                            ->where('absents.status','Alpha')
+                            ->where('absents.keterangan','!=',null)
+                            ->where('absents.time_in',null)
+                            ->get();
+        return view('admin.karyawan.viewPermintaanLupaPresent', compact('dataAlpha','no'));
+    }
+
+    public function setPermintaanLupaPresent(Request $request, $id){
+        $dataAlpha = Absent::where('id',$id)
+                                ->get();
+        if($request->input('status') == "Setuju"){
+            $update = Absent::where('id',$id)
+                            ->update(['time_in' => $dataAlpha[0]->created_at,'status' => 'hadir']);
+            if($update){
+                return redirect('karyawan/lupaPresensi')->with('success','Berhasil menyetujui permintaan');
+            }
+        }else{
+            $update = Absent::where('id',$id)
+                            ->update(['keterangan' => null]);
+            if($update){
+                return redirect('karyawan/lupaPresensi')->with('success','Berhasil menolak permintaan');
+            }
+        }
     }
 
     public function updateStatusCuti(Request $request,$id_karyawan)
