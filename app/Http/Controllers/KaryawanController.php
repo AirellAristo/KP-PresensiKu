@@ -110,6 +110,7 @@ class KaryawanController extends Controller
                             ->where('absents.status','Alpha')
                             ->where('absents.keterangan','!=',null)
                             ->where('absents.time_in',null)
+                            ->where('users.id_company',Auth::user()->id_company)
                             ->get();
         return view('admin.karyawan.viewPermintaanLupaPresent', compact('dataAlpha','no'));
     }
