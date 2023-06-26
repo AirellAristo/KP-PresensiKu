@@ -39,13 +39,7 @@ class CutiController extends Controller
         $checkPresensi =Absent::where('id_user',$idUser)
                         ->whereRaw('date(created_at) = CURRENT_DATE()')
                         ->count();
-        if($checkPresensi == 0){
-            if(Izin::create($validated)){
-                return redirect("/cuti")->with('success', 'Permintaan Cuti Sudah Dikirim');
-            }else{
-                return redirect()->back()->with('error', 'Mohon Isi Semua Data');
-            }
-        }if($checkPresensi > 0){
+        if($checkPresensi <= 0){
                 if ($validated['mulai'] > Carbon::now() || $validated['akhir'] > Carbon::now()){
                     if(Izin::create($validated)){
                         return redirect("/cuti")->with('success', 'Permintaan Cuti Sudah Dikirim');

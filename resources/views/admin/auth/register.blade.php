@@ -96,6 +96,12 @@
                             <div id="companyNameHelp" class="form-text">{{ $message }}</div>
                         @enderror
                     </div>
+                    <div class="col-12">
+                        <p class="small mb-0">*Your coordinates will be recorded to determine the location of your company</p>
+                      </div>
+
+                    <input type="hidden" id="latitude"  name="latitude" value="">
+                    <input type="hidden" id="longitude"  name="longitude" value="">
 
                     <div class="col-12">
                       <button class="btn btn-primary w-100" type="submit">Create Account</button>
@@ -103,6 +109,8 @@
                     <div class="col-12">
                       <p class="small mb-0">Already have an account? <a href="{{ url('/login') }}">Log in</a></p>
                     </div>
+
+
                   </form>
 
                 </div>
@@ -139,6 +147,23 @@
 
   <!-- Template Main JS File -->
   <script src="{{ asset('template/assets/js/main.js') }}"></script>
+    <script>
+        function Location() {
+            if ("geolocation" in navigator) {
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                        var userLatitude = position.coords.latitude;
+                        var userLongitude = position.coords.longitude;
+
+                        console.log(userLatitude,userLongitude)
+                        document.getElementById('latitude').value = userLatitude
+                        document.getElementById('longitude').value = userLongitude
+                    });
+                }
+            }
+        Location()
+    </script>
+
+
 
 </body>
 

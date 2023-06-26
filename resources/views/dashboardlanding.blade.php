@@ -2,7 +2,7 @@
 @section('content')
 <header class="masthead">
     <div class="container">
-        <div class="masthead-subheading">Welcome To siManage!</div>
+        <div class="masthead-subheading">Welcome To PresensiKu!</div>
         <div class="masthead-heading text-uppercase">Memudahkan PresensiMu ! </div>
         <a class="btn btn-primary btn-xl text-uppercase" href="#services">Tell Me More</a>
     </div>

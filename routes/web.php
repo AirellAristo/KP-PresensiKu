@@ -17,6 +17,7 @@ use App\Http\Controllers\SettingController;
 use App\Models\Absent;
 use App\Models\Izin;
 use App\Models\User;
+use App\Models\company;
 
 
 /*
@@ -35,6 +36,7 @@ Route::get('/', function () {
 });
 
 Route::get('/test',function(){
+        company::query()->update(['status' => 'tutup']);
         return view('test');
 });
 
@@ -64,6 +66,7 @@ Route::middleware(['loginAs'])->group(function () {
     Route::get('/setting',[SettingController::class,'viewSetting']);
     Route::get('/setting/presensi/buka',[AbsentController::class,'bukaPresensi']);
     Route::get('/setting/presensi/tutup',[AbsentController::class,'tutupPresensi']);
+    Route::put('/setting/perusahaan/titik',[SettingController::class,'SettingLokasiPerusahaan']);
     // End Setting
 
     //Edit or Lihat Profile Perusahaan

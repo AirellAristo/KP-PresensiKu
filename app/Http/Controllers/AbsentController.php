@@ -19,7 +19,11 @@ class AbsentController extends Controller
      */
     public function index()
     {
-        return view('landingpage.section.absensi');
+        $user = Auth::user();
+        $company = company::select('longitude', 'latitude', 'id_company')
+            ->where('id_company', $user->id_company)
+            ->get();
+            return view('landingpage.section.absensi', compact('company'));
     }
 
     public function bukaPresensi()
@@ -126,29 +130,35 @@ class AbsentController extends Controller
                         ->get();
         $absent = Absent::where('id_user', $user->id)
             ->where('time_in', '!=', NULL)
+            ->whereRaw('date(created_at) = CURRENT_DATE()')
             ->first();
-        if($check[0]->updated_at < Carbon::now() && $check[0]->status == 'tutup' ){
-            return redirect('/absent')->with('error', 'Presensi sudah ditutup');
-        }else{
-            if ($absent) {
-                return redirect('/absent')->with('error', 'Anda sudah Absent hari ini');
-            } else {
-                // dd('masuk else',$user->id);
-                $validated = $request->validate([
-                    'keterangan' => 'required'
-                ], [
-                    'keterangan.required' => 'Mohon Keterangan untuk diisi'
-                ]);
+        if($request->input('distance') < 15){
+            if($check[0]->updated_at < Carbon::now() && $check[0]->status == 'tutup' ){
+                return redirect('/absent')->with('error', 'Presensi sudah ditutup');
+            }else{
+                if ($absent) {
+                    return redirect('/absent')->with('error', 'Anda sudah Absent hari ini');
+                } else {
+                    // dd('masuk else',$user->id);
+                    $validated = $request->validate([
+                        'keterangan' => 'required'
+                    ], [
+                        'keterangan.required' => 'Mohon Keterangan untuk diisi'
+                    ]);
 
-                $validated['status'] = 'hadir';
-                $validated['time_in'] = Carbon::now();
+                    $validated['status'] = 'hadir';
+                    $validated['time_in'] = Carbon::now();
 
-                Absent::where('id_user', $user->id)
-                    ->whereRaw('date(created_at) = CURRENT_DATE()')
-                    ->update($validated);
-                return redirect('/absent')->with('success', 'Absent berhasil');
+                    Absent::where('id_user', $user->id)
+                        ->whereRaw('date(created_at) = CURRENT_DATE()')
+                        ->update($validated);
+                    return redirect('/absent')->with('success', 'Absent berhasil');
+                }
             }
+        }else{
+
         }
+        return redirect('/absent')->with('error', 'Anda terlalu jauh dari lokasi');
     }
 
 }

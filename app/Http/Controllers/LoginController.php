@@ -40,9 +40,10 @@ class LoginController extends Controller
         // if($request->validate()) {
             $company = company::create([
                 'id_company' => $idCompany,
-                'company_name' => $request->input('company_name')
+                'company_name' => $request->input('company_name'),
+                'longitude' => $request->input('longitude'),
+                'latitude' =>$request->input('latitude')
             ]);
-
             $user = User::create([
                 'name' => $request['name'],
                 'email' => $request['email'],

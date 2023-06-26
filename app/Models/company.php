@@ -12,5 +12,7 @@ class company extends Model
     protected $fillable = [
                 'id_company',
                 'company_name',
+                'longitude',
+                'latitude'
     ];
 }

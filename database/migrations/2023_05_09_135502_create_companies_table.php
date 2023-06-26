@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('id_company')->primary();
             $table->string('company_name');
             $table->enum('status', ['buka', 'tutup'])->default('tutup');
+            $table->double('longitude')->default(0);
+            $table->double('latitude')->default(0);
             $table->timestamps();
         });
     }

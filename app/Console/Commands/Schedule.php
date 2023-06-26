@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Absent;
 use App\Models\User;
 use App\Models\Izin;
+use App\Models\company;
 use Illuminate\Console\Command;
 
 class Schedule extends Command
@@ -14,7 +15,7 @@ class Schedule extends Command
      *
      * @var string
      */
-    protected $signature = 'schedule:check-attendance';
+    protected $signature = 'schedule:buka-presensi';
 
     /**
      * The console command description.
@@ -36,9 +37,9 @@ class Schedule extends Command
             ->where('id_role', '!=', 1)
             ->get();
         $izin = Izin::select('id_user')
-                ->whereRaw('CURRENT_DATE() = date(mulai) or CURRENT_DATE <= date(akhir)')
-                ->get();
-
+            ->whereRaw('CURRENT_DATE <= date(akhir)')
+            ->where('status','Setuju')
+            ->get();
         foreach($users as $idEmployee){
             $getIDUser[] = $idEmployee->id;
         };
@@ -46,15 +47,14 @@ class Schedule extends Command
         foreach($izin as $idIzin){
             $getIDIzin[] = $idIzin->id_user;
         };
-        $result = array_diff($getIDUser, $getIDIzin);
 
+        $result = array_diff($getIDUser, $getIDIzin);
         foreach ($result as $presensi) {
-            // if ($izin[0]->id_user != $user->id){
                 $absent = new Absent();
                 $absent->id_user = $presensi;
                 $absent->status = 'alpha';
                 $absent->save();
             }
+        company::query()->update(['status' => 'buka']);
         }
-    // }
 }

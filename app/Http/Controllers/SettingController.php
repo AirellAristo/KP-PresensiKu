@@ -51,4 +51,17 @@ class SettingController extends Controller
             }
         return view('admin.setting.editProfilePerusahaan');
     }
+
+    public function SettingLokasiPerusahaan(Request $request){
+        $updateLocation = company::where('id_company',Auth::user()->id_company)
+                                    ->update([
+                                            'longitude'=> $request->input('longitude'),
+                                            'latitude' => $request->input('latitude')
+                                    ]);
+        if($updateLocation){
+            return redirect('/setting')->with('success','Berhasil Mengganti Lokasi Perusahaan');
+        }else{
+            return redirect('/setting')->with('error','Gagal Mengganti Lokasi Perusahaan');
+        }
+    }
 }
