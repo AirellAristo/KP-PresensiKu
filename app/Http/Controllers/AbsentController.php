@@ -156,9 +156,9 @@ class AbsentController extends Controller
                 }
             }
         }else{
-
+            return redirect('/absent')->with('error', 'Anda terlalu jauh dari lokasi');
         }
-        return redirect('/absent')->with('error', 'Anda terlalu jauh dari lokasi');
+
     }
 
 }
